@@ -6,8 +6,24 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <script src="js/resources.js"></script>
+  <!-- Utility files -->
+  <script src="js/util/resources.js"></script>
+
+  <!-- Entity-component-system pattern -->
+  <script src="js/engine/entity.js"></script>
+  <script src="js/frogger/entities/enemy.js"></script>
+  <script src="js/frogger/entities/player.js"></script>
+
+  <script src="js/frogger/components/collider.js"></script>
+  <script src="js/frogger/components/position.js"></script>
+  <script src="js/frogger/components/render.js"></script>
+
+  <!-- Game engine -->
+  <script src="js/engine/tiledmap.js"></script>
+  <script src="js/engine/engine.js"></script>
+
+  <!-- Game-specific files -->
+  <script src="js/frogger/game.js"></script>
   <script src="js/app.js"></script>
-  <script src="js/engine.js"></script>
 </body>
 </html>
