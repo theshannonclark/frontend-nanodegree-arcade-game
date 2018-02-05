@@ -1,14 +1,9 @@
 var Player = function(sprite = 'char-boy.png', startX = 0, startY = 0) {
-  Entity.call(this);
-
   this.sprite = sprite;
   this.position = {x: startX, y: startY};
   this.nextMove = '';
   this.step = {x: 100, y: 83};
 };
-
-Player.prototype = Object.create(Entity);
-Player.prototype.constructor = Player;
 
 Player.prototype.update = function(dt) {
   if (this.nextMove !== '') {
