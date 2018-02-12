@@ -16,8 +16,11 @@
   let canvas = document.createElement('canvas');
   let ctx = canvas.getContext('2d');
 
-  let player = new Player('char-boy.png', 200, 380);
-  let entities = [player];
+  let entities = [];
+
+  let onInputCallback = (event) => { 
+    console.warn('Set an input handler using Engine#setOnInputHandler');
+  };
 
   let lastTime;
 
@@ -93,21 +96,34 @@
     });
   }
 
+  /* Add an entity to the game
+   */
+  function addEntity(entity) {
+    if (typeof entity === 'object') {
+      entities.push(entity);
+    }
+  }
+
+  /* Add a callback function to be called when
+   * a key is pressed.
+   */
+  function setOnInputHandler(callback) {
+    if (typeof callback === 'function') {
+      onInputCallback = callback;
+    }
+  }
+
   // This listens for key presses and sends the keys to your
   // Player.handleInput() method.
-  document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
-      37: 'left',
-      38: 'up',
-      39: 'right',
-      40: 'down'
-    };
-    player.handleInput(allowedKeys[e.keyCode]);
+  document.addEventListener('keyup', function(event) {
+    onInputCallback(event);
   });
 
   window.ctx = ctx;
   window.Engine = {
     init: init,
-    canvas: canvas
+    canvas: canvas,
+    addEntity: addEntity,
+    setOnInputHandler: setOnInputHandler
   };
 })();

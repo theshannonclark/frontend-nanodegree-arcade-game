@@ -1,8 +1,11 @@
+
 var Player = function(sprite = 'char-boy.png', startX = 0, startY = 0) {
   this.sprite = sprite;
   this.position = {x: startX, y: startY};
   this.nextMove = '';
   this.step = {x: 100, y: 83};
+
+  Engine.setOnInputHandler(this.handleInput.bind(this));
 };
 
 Player.prototype.update = function(dt) {
@@ -39,8 +42,16 @@ Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.position.x, this.position.y);
 };
 
-Player.prototype.handleInput = function(input) {
-  if (input !== undefined) {
+Player.prototype.handleInput = function(event) {
+  var allowedKeys = {
+    37: 'left',
+    38: 'up',
+    39: 'right',
+    40: 'down'
+  };
+
+  var input = allowedKeys[event.keyCode];
+  if (typeof input !== 'undefined') {
     this.nextMove = input;
   }
 };
