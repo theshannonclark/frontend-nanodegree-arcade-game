@@ -11,7 +11,7 @@
  */
 
 (function() {
-  let map = null;
+  let map = {};
 
   let canvas = document.createElement('canvas');
   let ctx = canvas.getContext('2d');
@@ -37,6 +37,7 @@
 
   function initMap(firstScreen, mapDimensions) {
     map = new TiledMap(mapDimensions);
+    window.Engine.map = map;
     map.initMap(firstScreen);
   }
 

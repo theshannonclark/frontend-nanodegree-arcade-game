@@ -24,8 +24,9 @@ const config = {
       {
         layers: {
           background: [
-            'water-block.png', 'stone-block.png', 'stone-block.png',
-            'stone-block.png', 'grass-block.png', 'grass-block.png'
+            'water-block.png', 'water-block.png', 'water-block.png',
+            'stone-block.png', 'stone-block.png', 'stone-block.png',
+            'grass-block.png', 'grass-block.png', 'grass-block.png',
           ]
         }
       }

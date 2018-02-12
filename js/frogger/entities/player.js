@@ -10,7 +10,17 @@ var Player = function(sprite = 'char-boy.png', startX = 0, startY = 0) {
 
 Player.prototype.update = function(dt) {
   if (this.nextMove !== '') {
-    this.move(this.nextMove);
+    let scrolled = false;
+
+    if (this.nextMove === 'up' && this.position.y < (Engine.canvas.height * 0.25)) {
+      scrolled = Engine.map.scrollUp();
+    } else if (this.nextMove === 'down' && this.position.y > (Engine.canvas.height * 0.50)) {
+      scrolled = Engine.map.scrollDown();
+    }
+
+    if (!scrolled) {
+      this.move(this.nextMove);
+    }
     this.nextMove = '';
   }
 };
