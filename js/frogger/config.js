@@ -13,22 +13,15 @@ const config = {
       tileWidth: 100
     },
 
-    tileset: {},
-
-    layerNames: [
-      'background', 'spawnPoints', 'triggers', 
-      'obstacles', 'platforms', 'collectibles'
-    ],
-
     levels: [
       {
-        layers: {
-          background: [
-            'water-block.png', 'water-block.png', 'water-block.png',
-            'stone-block.png', 'stone-block.png', 'stone-block.png',
-            'grass-block.png', 'grass-block.png', 'grass-block.png',
-          ]
-        }
+        background: [
+          'water-block.png', 'water-block.png', 'water-block.png',
+          'stone-block.png', 'stone-block.png', 'stone-block.png',
+          'grass-block.png', 'grass-block.png', 'grass-block.png',
+        ],
+        playerSpawn: { x: 200, y: 380 },
+        spawnPoints: [],
       }
     ]
   }
