@@ -5,18 +5,16 @@ let Game = function() {
   this.levelData = config.mapData.levels[this.level];
 
   this.resources = config.resources;
-  this.screen = this.levelData.background;
   this.mapDimensions = config.mapData.mapDimensions;
 };
 
 Game.prototype.init = function() {
-  Engine.init(this.resources, this.screen, this.mapDimensions);
+  Engine.init(this.resources, this.mapDimensions);
+  Engine.map.loadMap(this.levelData);
 
   let spawnX = this.levelData.playerSpawn.x; 
   let spawnY = this.levelData.playerSpawn.y;
-  let player = new Player('char-boy.png', spawnX, spawnY);
+  let player = new Player('char-boy.png', spawnX, spawnY, 90, 72);
 
   Engine.addEntity(player);
 };
-
-// 200, 380

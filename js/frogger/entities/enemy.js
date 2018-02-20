@@ -1,12 +1,11 @@
-var Enemy = function() {
-  this.sprite = 'enemy-bug.png';
+
+let Enemy = function(sprite, x, y, height, width) {
+  Entity.call(this, sprite, x, y, height, width);
 };
 
-Enemy.prototype.update = function(dt) {
+Enemy.prototype = Object.create(Entity.prototype);
+Enemy.prototype.constructor = Enemy;
+
+Enemy.prototype.updateThis = function(dt) {
   // todo: Update enemy
-};
-
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };

@@ -10,17 +10,23 @@ const config = {
       rows: 6,
       columns: 5,
       tileHeight: 83,
-      tileWidth: 100
+      tileWidth: 100,
+      maxY: 408, // Why 408? I'm not sure :)
+      offset: {
+        left: 0,
+        bottom: 83,
+      },
     },
 
     levels: [
       {
         background: [
-          'water-block.png', 'water-block.png', 'water-block.png',
-          'stone-block.png', 'stone-block.png', 'stone-block.png',
           'grass-block.png', 'grass-block.png', 'grass-block.png',
+          'stone-block.png', 'stone-block.png', 'stone-block.png',
+          'water-block.png', 'water-block.png', 'water-block.png',
         ],
-        playerSpawn: { x: 200, y: 380 },
+        // in world coordinates
+        playerSpawn: { x: 200, y: 208 },
         spawnPoints: [],
       }
     ]

@@ -1,61 +1,87 @@
+
 let TiledMap = function(mapDimensions) {
-  this.rows = mapDimensions.rows || 6;
-  this.columns = mapDimensions.columns || 5;
-  this.tileHeight = mapDimensions.tileHeight || 83;
-  this.tileWidth = mapDimensions.tileWidth || 100;
+  this.rows = mapDimensions.rows;
+  this.columns = mapDimensions.columns;
 
-  this.rowOffset = null;
+  this.tileHeight = mapDimensions.tileHeight;
+  this.tileWidth = mapDimensions.tileWidth;
 
-  this._map = [];
+  this.offset = mapDimensions.offset;
+
+  this.world = {
+    rows: 0,
+    columns: this.columns
+  };
 };
 
-TiledMap.prototype.initMap = function(firstScreen) {
-  for (let i = 0; i < firstScreen.length; i++) {
-    this._map.push(firstScreen[i]);
+TiledMap.prototype.loadMap = function(levelData) {
+  if (typeof this._map === 'undefined') {
+    this._map = new Entity(null, 0, 0, 0, 0);
+    Engine.addEntity(this._map);
+  } else {
+    // TODO: clear map first
   }
+  this._parseMap(levelData.background);
 };
 
-TiledMap.prototype.generateRow = function() {};
+TiledMap.prototype._parseMap = function(map) {
+  let mapArray = []
+  for (let i = 0; i < map.length; i++) {
+    let rowImage = map[i];
 
-TiledMap.prototype.render = function() {
-  // Before drawing, clear existing canvas
-  ctx.clearRect(0, 0, Engine.canvas.width, Engine.canvas.height)
+    mapArray[i] = [];
+    this.world.rows++;
 
-  // Show final n tiles, where n is the number of rows
-  this.rowOffset = (this.rowOffset !== null) ? this.rowOffset : this.nFromTheEnd(this.rows);
-  let rowOffsetCopy = this.rowOffset;
+    for (let j = 0; j < this.columns; j++) {
+      let tileX = j * this.tileWidth;
+      let tileY = (i + 1) * this.tileHeight + 90;
 
-  // Draw the map
-  for (let row = 0; (row < this.rows) && (rowOffsetCopy < this._map.length); row++) {
-    let rowImage = Resources.get(this._map[rowOffsetCopy++]);
+      let tile = new Tile(rowImage, tileX, tileY, this.tileHeight, this.tileWidth);
 
-    for (let column = 0; column < this.columns; column++) {
-      let dx = column * this.tileWidth;
-      let dy = row * this.tileHeight;
+      mapArray[i].push(tile);
+    }
+  }
+  this._addTiles(mapArray);
+};
 
-      ctx.drawImage(rowImage, dx, dy);
+TiledMap.prototype._addTiles = function(mapArray) {
+  for (let i = mapArray.length - 1; i >= 0; i--)  {
+    let row = mapArray[i];
+
+    if (Array.isArray(row)) {
+      Engine.addEntities(row, this._map);
     }
   }
 };
 
-TiledMap.prototype.scrollUp = function() {
-  let initOffset = this.rowOffset;
-  if (this.rowOffset !== null && (this.rowOffset - 1) >= 0) {
-    this.rowOffset--;
-  }
-  return initOffset !== this.rowOffset;
+/*  If things are positioned relative to the canvas, then their
+ *  positions need to be updated when the screen "scrolls". Using
+ *  a separate virtual coordinate system, and converting to "screen
+ *  coordinates" when rendering solved this problem. Screen coordinates
+ *  update, but world coordinates stay the same.
+ */
+TiledMap.prototype.worldCoordsToScreenCoords = function(x, y) {
+  let screenOrigin = { x: Engine.camera.position.x, y: Engine.camera.position.y };
+  return {
+    x: screenOrigin.x + x,
+    y: screenOrigin.y - y
+  };
 };
 
-TiledMap.prototype.scrollDown = function() {
-  let initOffset = this.rowOffset;
-  if (this.rowOffset !== null) {
-    let newOffset = this.rowOffset + 1;
-    if (newOffset + this.rows <= this._map.length) {
-      this.rowOffset = newOffset;
-    }
-  }
-  return initOffset !== this.rowOffset;
+TiledMap.prototype.pointInBounds = function(x, y, includeOffset = true) {
+  let worldWidth = (this.world.columns * this.tileWidth) + this.offset.left;
+  let worldHeight = (this.world.rows * this.tileHeight) + this.offset.bottom;
+
+  let offsetLeft = (includeOffset) ? this.offset.left : 0;
+  let offsetBottom = (includeOffset) ? this.offset.bottom : 0;
+
+  return (x >= offsetLeft && x <= worldWidth) &&
+         (y >= offsetBottom && y <= worldHeight);
 };
+
+
+
+// TODO:
 
 TiledMap.prototype.canStand = function(x, y) {};
 

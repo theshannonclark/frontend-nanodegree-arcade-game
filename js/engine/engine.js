@@ -16,93 +16,94 @@
   let canvas = document.createElement('canvas');
   let ctx = canvas.getContext('2d');
 
-  let entities = [];
+  // root of scene graph
+  let scene = {};
+
+  // View into the game world
+  let camera = {};
 
   let onInputCallback = (event) => { 
     console.warn('Set an input handler using Engine#setOnInputHandler');
   };
 
-  let lastTime;
+  let lastTime = null;
 
-  function init(resources, firstScreen, mapDimensions) {
-    initMap(firstScreen, mapDimensions);
+  function init(resources, mapDimensions) {
+    initMap(mapDimensions);
     initCanvas();
+    initCamera(mapDimensions.maxY);
 
+    scene = new Entity(null, 0, 0, 0, 0);
+    window.Engine.scene = scene;
+
+    // Start game loop
     Resources.onReady(function() {
-      lastTime = Date.now();
-      main();
+      window.requestAnimationFrame(main);
     });
     Resources.load(resources);
   }
 
-  function initMap(firstScreen, mapDimensions) {
+  function initMap(mapDimensions) {
     map = new TiledMap(mapDimensions);
     window.Engine.map = map;
-    map.initMap(firstScreen);
   }
 
   function initCanvas() {
-    let transparencyTop = 50;
-    let extraBottom = 40;
-
-    canvas.width = map.tileWidth * map.columns;
-    canvas.height = (map.tileHeight * map.rows) + 
-      transparencyTop + extraBottom;
+    canvas.width = (map.tileWidth * map.columns) + map.offset.left;
+    canvas.height = (map.tileHeight * map.rows) + map.offset.bottom;
 
     document.body.appendChild(canvas);
   }
 
-  function main() {
-    // The number of seconds that passed between the last frame and this one.
-    let now = Date.now();
-    let dt = (now - lastTime) / 1000.0;
+  function initCamera(maxY) {
+    let canvasHeight = Engine.canvas.height;
+    let canvasWidth = Engine.canvas.width;
 
-    // Call our update/render functions.
+    camera = new Camera(0, canvasHeight, canvasHeight, canvasWidth, maxY);
+    window.Engine.camera = camera;
+  }
+
+  function main(time) {
+    // The number of seconds that passed between the last frame and this one
+    lastTime = (lastTime === null) ? time : lastTime;
+    let dt = (time - lastTime) / 1000.0;
+    lastTime = time;
+
+    // Call our update/render functions
     update(dt);
     render();
 
-    // Used to determine the time delta.
-    lastTime = now;
-
-    /* Use the browser's requestAnimationFrame function to call this
-     * function again as soon as the browser is able to draw another frame.
-     */
+    // Call main again before the next repaint
     window.requestAnimationFrame(main);
   }
 
   // Updates the game's state
   function update(dt) {
-    updateEntities(dt);
-  }
-
-  // Update the position of all entities
-  function updateEntities(dt) {
-    entities.forEach(function(entity) {
-      entity.update(dt);
-    });
+    scene.update(dt);
   }
 
   // Draws the "game level", then draws other entities.
   function render() {
-    map.render();
-    renderEntities();
-  }
-
-  /* Call the render functions you have defined
-   * on your enemy and player entities.
-   */
-  function renderEntities() {
-    entities.forEach(function(entity) {
-      entity.render();
-    });
+    // Before drawing, clear existing canvas
+    ctx.clearRect(0, 0, Engine.canvas.width, Engine.canvas.height);
+    scene.render();
   }
 
   /* Add an entity to the game
    */
-  function addEntity(entity) {
+  function addEntity(entity, parent = null) {
+    let newParent = (parent === null) ? scene : parent;
     if (typeof entity === 'object') {
-      entities.push(entity);
+      newParent.addChild(entity);
     }
+  }
+
+  /* Add an array of entities to the game
+   */
+  function addEntities(entities, parent = null) {
+    entities.forEach((entity) => {
+      addEntity(entity, parent);
+    });
   }
 
   /* Add a callback function to be called when
@@ -125,6 +126,7 @@
     init: init,
     canvas: canvas,
     addEntity: addEntity,
+    addEntities: addEntities,
     setOnInputHandler: setOnInputHandler
   };
 })();
