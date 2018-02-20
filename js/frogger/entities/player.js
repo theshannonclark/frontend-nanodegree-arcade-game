@@ -22,9 +22,9 @@ Player.prototype.updateThis = function(dt) {
 
     // Scroll the map when the player is at the top or the bottom of the screen
     let screenCoords = Engine.map.worldCoordsToScreenCoords(this.position.x, this.position.y);
-    if (this.nextMove === 'up' && screenCoords.y < (Engine.canvas.height * 0.25)) {
+    if (this.nextMove === 'up' && screenCoords.y <= Math.floor(Engine.canvas.height * 0.25)) {
       scrolled = Engine.camera.scrollUp();
-    } else if (this.nextMove === 'down' && screenCoords.y > (Engine.canvas.height * 0.50)) {
+    } else if (this.nextMove === 'down' && screenCoords.y >= Math.floor(Engine.canvas.height * 0.50)) {
       scrolled = Engine.camera.scrollDown();
     }
 
