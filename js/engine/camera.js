@@ -21,20 +21,6 @@ Camera.prototype._scroll = function(x, y) {
   let initX = this.position.x;
   let initY = this.position.y;
 
-  console.log("camera starting:",
-    "top-left:", this.position.x, this.position.y,
-    "top-right:", this.position.x + this.dimensions.width, this.position.y, 
-    "bottom-right:", this.position.x + this.dimensions.width, this.position.y - this.dimensions.height,
-    "bottom-left:", this.position.x, this.position.y - this.dimensions.height
-  );
-  console.log("camera new:",
-    "top-left:", x, y,
-    "top-right:", x + this.dimensions.width, y, 
-    "bottom-right:", x + this.dimensions.width, y - this.dimensions.height,
-    "bottom-left:", x, y - this.dimensions.height
-  );
-  console.log();
-
   if (this.inBounds(x, y)) {
     this.position.x = x;
     this.position.y = y;
