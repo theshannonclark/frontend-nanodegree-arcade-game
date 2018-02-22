@@ -25,32 +25,33 @@ TiledMap.prototype.loadMap = function(levelData) {
 };
 
 TiledMap.prototype._parseMap = function(map) {
-  let mapArray = []
+  let rows = [];
   for (let i = 0; i < map.length; i++) {
     let rowImage = map[i];
 
-    mapArray[i] = [];
+    let rowY = (i + 1) * this.tileHeight + 90;
+    let rowParent = new Entity(null, 0, rowY, 0, 0);
+
+    rows.push(rowParent);
+
     this.world.rows++;
 
+    let pointer = rowParent;
     for (let j = 0; j < this.columns; j++) {
       let tileX = j * this.tileWidth;
       let tileY = (i + 1) * this.tileHeight + 90;
 
       let tile = new Tile(rowImage, tileX, tileY, this.tileHeight, this.tileWidth);
-
-      mapArray[i].push(tile);
+      Engine.addEntity(tile, pointer);
+      pointer = tile;
     }
   }
-  this._addTiles(mapArray);
+  this._addRows(rows);
 };
 
-TiledMap.prototype._addTiles = function(mapArray) {
-  for (let i = mapArray.length - 1; i >= 0; i--)  {
-    let row = mapArray[i];
-
-    if (Array.isArray(row)) {
-      Engine.addEntities(row, this._map);
-    }
+TiledMap.prototype._addRows = function(rows) {
+  for (let i = rows.length - 1; i >= 0; i--) {
+    Engine.addEntity(rows[i], this._map);
   }
 };
 

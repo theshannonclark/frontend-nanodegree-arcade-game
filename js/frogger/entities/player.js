@@ -21,7 +21,7 @@ Player.prototype.updateThis = function(dt) {
     let scrolled = false;
 
     // Scroll the map when the player is at the top or the bottom of the screen
-    let screenCoords = Engine.map.worldCoordsToScreenCoords(this.position.x, this.position.y);
+    let screenCoords = this.getScreenCoords();
     if (this.nextMove === 'up' && screenCoords.y <= Math.floor(Engine.canvas.height * 0.25)) {
       scrolled = Engine.camera.scrollUp();
     } else if (this.nextMove === 'down' && screenCoords.y >= Math.floor(Engine.canvas.height * 0.50)) {

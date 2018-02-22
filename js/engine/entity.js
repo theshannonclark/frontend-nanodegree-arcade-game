@@ -13,10 +13,11 @@ let Entity = function(sprite, x, y, height, width) {
 };
 
 Entity.prototype.addChild = function(child) {
-  if (child instanceof Entity) {
-    this._children.push(child);
-    child._parent = this;
-  }
+  let relativeCoords = this.getCoordsRelativeToThisOf(child);
+
+  child.position = { x: relativeCoords.x, y: relativeCoords.y };
+  this._children.push(child);
+  child._parent = this;
 };
 
 Entity.prototype.find = function(callback) {
@@ -29,6 +30,45 @@ Entity.prototype.find = function(callback) {
     });
   }
   return found;
+};
+
+Entity.prototype.getScreenCoords = function() {
+  let absoluteCoords = this.getAbsoluteCoords();
+  return Engine.map.worldCoordsToScreenCoords(absoluteCoords.x, absoluteCoords.y);
+};
+
+Entity.prototype.getAbsoluteCoords = function() {
+  if (this._parent === null) {
+    return this.position;
+  }
+  let parentCoords = this._parent.getAbsoluteCoords();
+  return {
+    x: this.position.x + parentCoords.x,
+    y: this.position.y + parentCoords.y
+  };
+};
+
+Entity.prototype.getCoordsRelativeToThisOf = function(entity) {
+  let absoluteCoords = entity.getAbsoluteCoords();
+  return this.getCoordsRelativeToParent(absoluteCoords.x, absoluteCoords.y);
+};
+
+Entity.prototype.getCoordsRelativeToParent = function(x, y) {
+  let nodeRef = this;
+  let nodes = [];
+  while (nodeRef !== null) {
+    nodes.push(nodeRef);
+    nodeRef = nodeRef._parent
+  }
+
+  let result = { x: x, y: y };
+  for (let i = nodes.length - 1; i >= 0; i--) {
+    result = {
+      x: result.x - nodes[i].position.x,
+      y: result.y - nodes[i].position.y
+    };
+  }
+  return result;
 };
 
 Entity.prototype.update = function(dt) {
@@ -49,7 +89,7 @@ Entity.prototype.render = function() {
 
 Entity.prototype.renderThis = function() {
   if (this.sprite !== null) {
-    let screenCoords = Engine.map.worldCoordsToScreenCoords(this.position.x, this.position.y);
+    let screenCoords = this.getScreenCoords();
 
     if (Engine.camera.onScreen(screenCoords.x, screenCoords.y, this.dimensions.height, this.dimensions.width)) {
       ctx.drawImage(Resources.get(this.sprite), screenCoords.x, screenCoords.y);

@@ -98,14 +98,6 @@
     }
   }
 
-  /* Add an array of entities to the game
-   */
-  function addEntities(entities, parent = null) {
-    entities.forEach((entity) => {
-      addEntity(entity, parent);
-    });
-  }
-
   /* Add a callback function to be called when
    * a key is pressed.
    */
@@ -126,7 +118,6 @@
     init: init,
     canvas: canvas,
     addEntity: addEntity,
-    addEntities: addEntities,
     setOnInputHandler: setOnInputHandler
   };
 })();
