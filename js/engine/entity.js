@@ -6,10 +6,6 @@ let Entity = function(sprite, x, y, height, width) {
   this.sprite = sprite;
   this.position = { x: x, y: y };
   this.dimensions = { height: height, width: width };
-  this.step = {
-    x: Engine.map.tileWidth,
-    y: Engine.map.tileHeight
-  };
 };
 
 Entity.prototype.addChild = function(child) {

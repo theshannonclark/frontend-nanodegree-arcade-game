@@ -9,6 +9,10 @@ var Player = function(sprite, startX, startY, height, width) {
     39: 'right',
     40: 'down'
   };
+  this.step = {
+    x: Engine.map.tileWidth,
+    y: Engine.map.tileHeight
+  };
 
   Engine.setOnInputHandler(this.handleInput.bind(this));
 };
