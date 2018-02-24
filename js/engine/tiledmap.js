@@ -16,7 +16,7 @@ let TiledMap = function(mapDimensions) {
 
 TiledMap.prototype.loadMap = function(levelData) {
   if (typeof this._map === 'undefined') {
-    this._map = new Entity(null, 0, 0, 0, 0);
+    this._map = new NullEntity();
     Engine.addEntity(this._map);
   } else {
     // TODO: clear map first
@@ -30,7 +30,7 @@ TiledMap.prototype._parseMap = function(map) {
     let rowImage = map[i];
 
     let rowY = (i + 1) * this.tileHeight + 90;
-    let rowParent = new Entity(null, 0, rowY, 0, 0);
+    let rowParent = new NullEntity(null, 0, rowY);
 
     rows.push(rowParent);
 
@@ -50,8 +50,22 @@ TiledMap.prototype._parseMap = function(map) {
 };
 
 TiledMap.prototype._addRows = function(rows) {
+  if (typeof this._mapRows === 'undefined') {
+    this._mapRows = new NullEntity();
+    Engine.addEntity(this._mapRows, this._map)
+  }
   for (let i = rows.length - 1; i >= 0; i--) {
-    Engine.addEntity(rows[i], this._map);
+    Engine.addEntity(rows[i], this._mapRows);
+  }
+};
+
+TiledMap.prototype.addSpawnPoint = function(spawnPoint) {
+  if (typeof this._spawnPoints === 'undefined') {
+    this._spawnPoints = new NullEntity();
+    Engine.addEntity(this._spawnPoints, this._map);
+  }
+  if (spawnPoint instanceof Entity) {
+    Engine.addEntity(spawnPoint, this._spawnPoints);
   }
 };
 

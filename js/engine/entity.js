@@ -16,6 +16,19 @@ Entity.prototype.addChild = function(child) {
   child._parent = this;
 };
 
+Entity.prototype.removeChild = function(childToDelete) {
+  this._children = this._children.filter(child => child !== childToDelete);
+};
+
+Entity.prototype.delete = function() {
+  if (this._parent !== null) {
+    this._parent.removeChild(this);
+  }
+  this._children.forEach(child => child.delete());
+  this._parent = null;
+  this._children = [];
+};
+
 Entity.prototype.find = function(callback) {
   let found = [];
   if (callback(this)) {
@@ -44,6 +57,18 @@ Entity.prototype.getAbsoluteCoords = function() {
   };
 };
 
+Entity.prototype.getAbsoluteCoordsOf = function(x, y) {
+  let currentCoords = { x: this.position.x, y: this.position.y };
+
+  this.position.x = x;
+  this.position.y = y;
+
+  let result = this.getAbsoluteCoords();
+
+  this.position = currentCoords;
+  return result;
+};
+
 Entity.prototype.getCoordsRelativeToThisOf = function(entity) {
   let absoluteCoords = entity.getAbsoluteCoords();
   return this.getCoordsRelativeToParent(absoluteCoords.x, absoluteCoords.y);
@@ -68,9 +93,9 @@ Entity.prototype.getCoordsRelativeToParent = function(x, y) {
 };
 
 Entity.prototype.update = function(dt) {
-  this.updateThis();
+  this.updateThis(dt);
   this._children.forEach((child) => {
-    child.update();
+    child.update(dt);
   });
 };
 
@@ -96,11 +121,29 @@ Entity.prototype.renderThis = function() {
 // Some entities have different bounds
 // e.g. the camera and the player
 Entity.prototype.inBounds = function(x, y) {
+  let absCoords = this.getAbsoluteCoordsOf(x, y);
+
+  let absX = absCoords.x;
+  let absY = absCoords.y;
+
   let height = this.dimensions.height;
   let width = this.dimensions.width;
 
-  return Engine.map.pointInBounds(x, y) &&                   // top-left corner
-         Engine.map.pointInBounds(x + width, y) &&           // top-right corner
-         Engine.map.pointInBounds(x + width, y - height) &&  // bottom-right corner
-         Engine.map.pointInBounds(x, y - height);            // bottom-left corner
+  return Engine.map.pointInBounds(absX, absY) &&                   // top-left corner
+         Engine.map.pointInBounds(absX + width, absY) &&           // top-right corner
+         Engine.map.pointInBounds(absX + width, absY - height) &&  // bottom-right corner
+         Engine.map.pointInBounds(absX, absY - height);            // bottom-left corner
 };
+
+
+
+let NullEntity = function(sprite = null, x = 0, y = 0, height = 0, width = 0) {
+  Entity.call(this, sprite, x, y, height, width);
+};
+
+NullEntity.prototype = Object.create(Entity.prototype);
+NullEntity.prototype.constructor = NullEntity;
+
+NullEntity.prototype.renderThis = function() {};
+
+NullEntity.prototype.updateThis = function(dt) {};

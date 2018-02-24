@@ -33,7 +33,7 @@
     initCanvas();
     initCamera(mapDimensions.maxY);
 
-    scene = new Entity(null, 0, 0, 0, 0);
+    scene = new NullEntity();
     window.Engine.scene = scene;
 
     // Start game loop

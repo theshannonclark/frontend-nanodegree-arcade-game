@@ -44,11 +44,16 @@ Camera.prototype.pointOnScreen = function(x, y) {
 };
 
 Camera.prototype.inBounds = function(x, y) {
+  let absCoords = this.getAbsoluteCoordsOf(x, y);
+
+  let absX = absCoords.x;
+  let absY = absCoords.y;
+
   let height = this.dimensions.height;
   let width = this.dimensions.width;
 
-  return Engine.map.pointInBounds(x, y, false) &&                   // top-left corner
-         Engine.map.pointInBounds(x + width, y, false) &&           // top-right corner
-         Engine.map.pointInBounds(x + width, y - height, false) &&  // bottom-right corner
-         Engine.map.pointInBounds(x, y - height, false);            // bottom-left corner
+  return Engine.map.pointInBounds(absX, absY, false) &&                   // top-left corner
+         Engine.map.pointInBounds(absX + width, absY, false) &&           // top-right corner
+         Engine.map.pointInBounds(absX + width, absY - height, false) &&  // bottom-right corner
+         Engine.map.pointInBounds(absX, absY - height, false);            // bottom-left corner
 };

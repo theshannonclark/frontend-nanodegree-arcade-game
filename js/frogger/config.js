@@ -5,6 +5,15 @@ const config = {
     'enemy-bug.png', 'char-boy.png'
   ],
 
+  enemies: {
+    bug: {
+      sprite: 'enemy-bug.png',
+      Constructor: Enemy,
+      height: 80,
+      width: 100,
+    },
+  },
+
   mapData: {
     mapDimensions: {
       rows: 6,
@@ -21,13 +30,86 @@ const config = {
     levels: [
       {
         background: [
+          'grass-block.png', 'stone-block.png', 'grass-block.png',
+          'grass-block.png', 'stone-block.png', 'stone-block.png',
+          'stone-block.png', 'grass-block.png', 'stone-block.png',
           'grass-block.png', 'grass-block.png', 'grass-block.png',
-          'stone-block.png', 'stone-block.png', 'stone-block.png',
-          'water-block.png', 'water-block.png', 'water-block.png',
+          'stone-block.png', 'stone-block.png', 'water-block.png',
         ],
         // in world coordinates
         playerSpawn: { x: 200, y: 208 },
-        spawnPoints: [],
+        spawnPoints: [
+          {
+            type: 'bug',
+            x: 0,
+            y: 291,
+            timeBetweenSpawns: 4500,
+            step: {
+              x: 100,
+              y: 0,
+            },
+          },
+          {
+            type: 'bug',
+            x: 400,
+            y: 540,
+            timeBetweenSpawns: 4000,
+            step: {
+              x: -100,
+              y: 0,
+            },
+          },
+          {
+            type: 'bug',
+            x: 0,
+            y: 623,
+            timeBetweenSpawns: 3000,
+            step: {
+              x: 100,
+              y: 0,
+            },
+          },
+          {
+            type: 'bug',
+            x: 400,
+            y: 706,
+            timeBetweenSpawns: 4000,
+            step: {
+              x: -100,
+              y: 0,
+            },
+          },
+          {
+            type: 'bug',
+            x: 0,
+            y: 872,
+            timeBetweenSpawns: 2000,
+            step: {
+              x: 150,
+              y: 0,
+            },
+          },
+          {
+            type: 'bug',
+            x: 0,
+            y: 1204,
+            timeBetweenSpawns: 5000,
+            step: {
+              x: 100,
+              y: 0,
+            },
+          },
+          {
+            type: 'bug',
+            x: 400,
+            y: 1287,
+            timeBetweenSpawns: 5000,
+            step: {
+              x: -100,
+              y: 0,
+            },
+          },
+        ],
       }
     ]
   }

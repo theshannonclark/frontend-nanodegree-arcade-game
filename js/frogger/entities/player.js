@@ -73,13 +73,18 @@ Player.prototype.handleInput = function(event) {
 };
 
 Player.prototype.inBounds = function(x, y) {
+  let absCoords = this.getAbsoluteCoordsOf(x, y);
+
+  let absX = absCoords.x;
+  let absY = absCoords.y;
+
   let height = this.dimensions.height;
   let width = this.dimensions.width;
 
   let yOffset = 42;
 
-  return Engine.map.pointInBounds(x, y - yOffset) &&          // top-left corner
-         Engine.map.pointInBounds(x + width, y - yOffset) &&  // top-right corner
-         Engine.map.pointInBounds(x + width, y - height) &&   // bottom-right corner
-         Engine.map.pointInBounds(x, y - height);             // bottom-left corner
+  return Engine.map.pointInBounds(absX, absY - yOffset) &&          // top-left corner
+         Engine.map.pointInBounds(absX + width, absY - yOffset) &&  // top-right corner
+         Engine.map.pointInBounds(absX + width, absY - height) &&   // bottom-right corner
+         Engine.map.pointInBounds(absX, absY - height);             // bottom-left corner
 };
