@@ -15,12 +15,14 @@ let TiledMap = function(mapDimensions) {
 };
 
 TiledMap.prototype.loadMap = function(levelData) {
-  if (typeof this._map === 'undefined') {
-    this._map = new NullEntity();
-    Engine.addEntity(this._map);
-  } else {
-    // TODO: clear map first
+  if (typeof this._map !== 'undefined') {
+    this._map.delete();
+    this._map = this._mapRows = this._spawnPoints = undefined;
   }
+
+  this._map = new NullEntity();
+  Engine.addEntity(this._map);
+
   this._parseMap(levelData.background);
 };
 

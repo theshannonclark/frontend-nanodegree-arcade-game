@@ -44,7 +44,7 @@ Entity.prototype.find = function(callback) {
     found.push(this);
   } else {
     this._children.forEach((child) => {
-      found.concat(child.find(callback));
+      found = found.concat(child.find(callback));
     });
   }
   return found;

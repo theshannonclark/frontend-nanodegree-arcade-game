@@ -12,10 +12,12 @@ let Game = function() {
 
 Game.prototype.init = function() {
   Engine.init(this.resources, this.mapDimensions);
+  this.initLevel();
+};
+
+Game.prototype.initLevel = function() {
   Engine.map.loadMap(this.levelData);
-
   this.initSpawnPoints();
-
   this.initPlayer();
 };
 
@@ -40,3 +42,11 @@ Game.prototype.initPlayer = function() {
   Engine.addEntity(player);
   App.game.player = player;
 };
+
+Game.prototype.restartLevel = function() {
+  if (typeof App.game.player !== 'undefined') {
+    App.game.player.delete();
+  }
+  this.initLevel();
+  Engine.initCamera(this.mapDimensions.maxY);
+}

@@ -17,11 +17,23 @@ Enemy.prototype.updateThis = function(dt) {
   } else {
   	this.delete();
   }
+};
 
+Enemy.prototype.checkCollisions = function(dt) {
   let player = App.game.player;
   if (typeof this.bounds !== 'undefined' && typeof player.bounds !== 'undefined') {
     if (this.bounds.intersects(player.bounds)) {
-    	//player.die();
+      player.die();
+      return true;
     }
+  }
+  return false;
+};
+
+Enemy.prototype.renderThis = function() {
+  if (typeof this.bounds !== 'undefined') {
+    Object.getPrototypeOf(Enemy.prototype).renderThis.call(this);
+    let screenCoords = this.bounds.getScreenCoords();
+    ctx.strokeRect(screenCoords.x, screenCoords.y, this.bounds.dimensions.width, this.bounds.dimensions.height);
   }
 };

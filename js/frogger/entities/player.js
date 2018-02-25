@@ -37,8 +37,16 @@ Player.prototype.updateThis = function(dt) {
   }
 };
 
+Player.prototype.renderThis = function() {
+  if (typeof this.bounds !== 'undefined') {
+    Object.getPrototypeOf(Player.prototype).renderThis.call(this);
+    let screenCoords = this.bounds.getScreenCoords();
+    ctx.strokeRect(screenCoords.x, screenCoords.y, this.bounds.dimensions.width, this.bounds.dimensions.height);
+  }
+};
+
 Player.prototype.die = function() {
-  console.log(Date.now(), ": player died");
+  App.game.restartLevel();
 };
 
 Player.prototype.move = function(move) {

@@ -80,6 +80,7 @@
   // Updates the game's state
   function update(dt) {
     scene.update(dt);
+    checkCollisions();
   }
 
   // Draws the "game level", then draws other entities.
@@ -88,6 +89,17 @@
     ctx.clearRect(0, 0, Engine.canvas.width, Engine.canvas.height);
     scene.render();
   }
+
+  function checkCollisions() {
+    let colliders = scene.find((node) => (typeof node.checkCollisions === 'function'));
+    let collided = false;
+
+    colliders.forEach((collider) => {
+      if (!collided) {
+        collided = collider.checkCollisions();
+      }
+    });
+  };
 
   /* Add an entity to the game
    */
@@ -118,6 +130,7 @@
     init: init,
     canvas: canvas,
     addEntity: addEntity,
-    setOnInputHandler: setOnInputHandler
+    initCamera: initCamera,
+    setOnInputHandler: setOnInputHandler,
   };
 })();
