@@ -36,4 +36,5 @@ Game.prototype.initPlayer = function() {
   let player = new Player('char-boy.png', spawnX, spawnY, 90, 72);
 
   Engine.addEntity(player);
+  App.game.player = player;
 };
