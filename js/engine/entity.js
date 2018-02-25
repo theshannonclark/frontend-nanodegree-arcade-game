@@ -29,6 +29,15 @@ Entity.prototype.delete = function() {
   this._children = [];
 };
 
+Entity.prototype.setBounds = function(bounds) {
+  if (typeof this.bounds !== 'undefined') {
+    this.bounds.delete();
+    this.bounds = undefined;
+  }
+  this.bounds = bounds;
+  this.addChild(this.bounds);
+};
+
 Entity.prototype.find = function(callback) {
   let found = [];
   if (callback(this)) {

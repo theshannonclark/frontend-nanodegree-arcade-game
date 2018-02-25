@@ -37,6 +37,10 @@ Player.prototype.updateThis = function(dt) {
   }
 };
 
+Player.prototype.die = function() {
+  console.log(Date.now(), ": player died");
+};
+
 Player.prototype.move = function(move) {
   let newX = this.position.x;
   let newY = this.position.y;

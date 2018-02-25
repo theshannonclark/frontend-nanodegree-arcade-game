@@ -28,6 +28,7 @@ SpawnPoint.prototype.updateThis = function(dt) {
     let width = this.toSpawn.width;
 
     let entity = new this.toSpawn.Constructor(this.toSpawn.sprite, x, y, height, width, this.step);
+    entity.setBounds(new Rect(this.position.x, this.position.y - 74, height - 10, width));
     Engine.addEntity(entity, this);
 
     this.lastSpawnTime = time;

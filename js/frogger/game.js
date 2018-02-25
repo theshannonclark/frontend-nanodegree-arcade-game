@@ -33,7 +33,9 @@ Game.prototype.initSpawnPoints = function() {
 Game.prototype.initPlayer = function() {
   let spawnX = this.levelData.playerSpawn.x; 
   let spawnY = this.levelData.playerSpawn.y;
+
   let player = new Player('char-boy.png', spawnX, spawnY, 90, 72);
+  player.setBounds(new Rect(player.position.x + 15, player.position.y - 64, player.dimensions.height - 10, player.dimensions.width))
 
   Engine.addEntity(player);
   App.game.player = player;

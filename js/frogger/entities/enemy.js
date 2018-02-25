@@ -17,4 +17,11 @@ Enemy.prototype.updateThis = function(dt) {
   } else {
   	this.delete();
   }
+
+  let player = App.game.player;
+  if (typeof this.bounds !== 'undefined' && typeof player.bounds !== 'undefined') {
+    if (this.bounds.intersects(player.bounds)) {
+    	//player.die();
+    }
+  }
 };
