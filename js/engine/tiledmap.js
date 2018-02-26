@@ -18,6 +18,7 @@ TiledMap.prototype.loadMap = function(levelData) {
   if (typeof this._map !== 'undefined') {
     this._map.delete();
     this._map = this._mapRows = this._spawnPoints = undefined;
+    this.world.rows = 0;
   }
 
   this._map = new NullEntity();
