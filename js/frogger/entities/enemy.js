@@ -9,6 +9,10 @@ Enemy.prototype = Object.create(Entity.prototype);
 Enemy.prototype.constructor = Enemy;
 
 Enemy.prototype.updateThis = function(dt) {
+  if (typeof App.game.player !== 'undefined' && App.game.player.freeze) {
+    return;
+  }
+
   let newX = this.position.x + (this.step.x * dt);
   let newY = this.position.y + (this.step.y * dt)
 
@@ -28,12 +32,4 @@ Enemy.prototype.checkCollisions = function(dt) {
     }
   }
   return false;
-};
-
-Enemy.prototype.renderThis = function() {
-  if (typeof this.bounds !== 'undefined') {
-    Object.getPrototypeOf(Enemy.prototype).renderThis.call(this);
-    let screenCoords = this.bounds.getScreenCoords();
-    ctx.strokeRect(screenCoords.x, screenCoords.y, this.bounds.dimensions.width, this.bounds.dimensions.height);
-  }
 };

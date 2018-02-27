@@ -2,7 +2,7 @@
 const config = {
   resources: [
     'stone-block.png', 'water-block.png', 'grass-block.png',
-    'enemy-bug.png', 'char-boy.png'
+    'enemy-bug.png', 'char-boy.png', 'Selector.png'
   ],
 
   enemies: {
@@ -11,6 +11,21 @@ const config = {
       Constructor: Enemy,
       height: 80,
       width: 100,
+    },
+  },
+
+  triggers: {
+    end: {
+      sprite: 'Selector.png',
+      Constructor: EndTrigger,
+      height: 83,
+      width: 100,
+      bounds: {
+        x: 0,
+        y: -90,
+        height: 83,
+        width: 100,
+      },
     },
   },
 
@@ -34,7 +49,8 @@ const config = {
           'grass-block.png', 'stone-block.png', 'stone-block.png',
           'stone-block.png', 'grass-block.png', 'stone-block.png',
           'grass-block.png', 'grass-block.png', 'grass-block.png',
-          'stone-block.png', 'stone-block.png', 'water-block.png',
+          'stone-block.png', 'stone-block.png', 'grass-block.png',
+          'grass-block.png', 'grass-block.png', 'grass-block.png',
         ],
         // in world coordinates
         playerSpawn: { x: 200, y: 208 },
@@ -108,6 +124,13 @@ const config = {
               x: -100,
               y: 0,
             },
+          },
+        ],
+        triggers: [
+          {
+            type: 'end',
+            x: 200,
+            y: 1624,
           },
         ],
       }

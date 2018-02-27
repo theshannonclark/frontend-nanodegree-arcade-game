@@ -125,6 +125,10 @@ Entity.prototype.renderThis = function() {
       ctx.drawImage(Resources.get(this.sprite), screenCoords.x, screenCoords.y);
     }
   }
+  if (typeof this.bounds !== 'undefined') {
+    let screenCoords = this.bounds.getScreenCoords();
+    ctx.strokeRect(screenCoords.x, screenCoords.y, this.bounds.dimensions.width, this.bounds.dimensions.height);
+  }
 };
 
 // Some entities have different bounds

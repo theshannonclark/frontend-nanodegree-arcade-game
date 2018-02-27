@@ -2,6 +2,7 @@
 var Player = function(sprite, startX, startY, height, width) {
   Entity.call(this, sprite, startX, startY, height, width);
 
+  this.freeze = false;
   this.nextMove = '';
   this.allowedKeys = {
     37: 'left',
@@ -21,7 +22,7 @@ Player.prototype = Object.create(Entity.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.updateThis = function(dt) {
-  if (this.nextMove !== '') {
+  if (!this.freeze && this.nextMove !== '') {
     let scrolled = false;
 
     // Scroll the map when the player is at the top or the bottom of the screen
@@ -37,16 +38,9 @@ Player.prototype.updateThis = function(dt) {
   }
 };
 
-Player.prototype.renderThis = function() {
-  if (typeof this.bounds !== 'undefined') {
-    Object.getPrototypeOf(Player.prototype).renderThis.call(this);
-    let screenCoords = this.bounds.getScreenCoords();
-    ctx.strokeRect(screenCoords.x, screenCoords.y, this.bounds.dimensions.width, this.bounds.dimensions.height);
-  }
-};
-
 Player.prototype.die = function() {
-  App.game.restartLevel();
+  this.freeze = true;
+  window.setTimeout(App.game.restartLevel.bind(App.game), 200);
 };
 
 Player.prototype.move = function(move) {

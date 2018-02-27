@@ -17,7 +17,7 @@ let TiledMap = function(mapDimensions) {
 TiledMap.prototype.loadMap = function(levelData) {
   if (typeof this._map !== 'undefined') {
     this._map.delete();
-    this._map = this._mapRows = this._spawnPoints = undefined;
+    this._map = this._mapRows = this._spawnPoints = this._triggers = undefined;
     this.world.rows = 0;
   }
 
@@ -72,6 +72,16 @@ TiledMap.prototype.addSpawnPoint = function(spawnPoint) {
   }
 };
 
+TiledMap.prototype.addTrigger = function(trigger) {
+  if (typeof this._triggers === 'undefined') {
+    this._triggers = new NullEntity();
+    Engine.addEntity(this._triggers, this._map);
+  }
+  if (trigger instanceof Entity) {
+    Engine.addEntity(trigger, this._triggers);
+  }
+};
+
 /*  If things are positioned relative to the canvas, then their
  *  positions need to be updated when the screen "scrolls". Using
  *  a separate virtual coordinate system, and converting to "screen
@@ -86,15 +96,21 @@ TiledMap.prototype.worldCoordsToScreenCoords = function(x, y) {
   };
 };
 
+TiledMap.prototype.getWorldDimensions = function() {
+  return {
+    height: (this.world.rows * this.tileHeight) + this.offset.bottom,
+    width:  (this.world.columns * this.tileWidth) + this.offset.left
+  };
+};
+
 TiledMap.prototype.pointInBounds = function(x, y, includeOffset = true) {
-  let worldWidth = (this.world.columns * this.tileWidth) + this.offset.left;
-  let worldHeight = (this.world.rows * this.tileHeight) + this.offset.bottom;
+  let worldSize = this.getWorldDimensions();
 
   let offsetLeft = (includeOffset) ? this.offset.left : 0;
   let offsetBottom = (includeOffset) ? this.offset.bottom : 0;
 
-  return (x >= offsetLeft && x <= worldWidth) &&
-         (y >= offsetBottom && y <= worldHeight);
+  return (x >= offsetLeft && x <= worldSize.width) &&
+         (y >= offsetBottom && y <= worldSize.height);
 };
 
 
@@ -103,9 +119,9 @@ TiledMap.prototype.pointInBounds = function(x, y, includeOffset = true) {
 
 TiledMap.prototype.canStand = function(x, y) {};
 
-TiledMap.prototype.coordsToTileIndices = function(x, y) {};
-
 TiledMap.prototype.tileIndicesToCoords = function(i, j) {};
+
+TiledMap.prototype.coordsToTileIndices = function(x, y) {};
 
 TiledMap.prototype.nFromTheEnd = function(n) {
   let index = (this._map.length - 1) - (n - 1);
