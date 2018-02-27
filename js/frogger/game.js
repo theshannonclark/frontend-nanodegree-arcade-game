@@ -26,9 +26,10 @@ Game.prototype.initLevel = function() {
 Game.prototype.initSpawnPoints = function() {
   this.levelData.spawnPoints.forEach((spawnPoint) => {
     let enemy = this.enemies[spawnPoint.type];
+    let sprite = spawnPoint.sprite;
 
     if (typeof enemy !== 'undefined') {
-      let spawn = new SpawnPoint(spawnPoint.x, spawnPoint.y, enemy, spawnPoint.timeBetweenSpawns, spawnPoint.step);
+      let spawn = new SpawnPoint(spawnPoint.x, spawnPoint.y, sprite, enemy, spawnPoint.timeBetweenSpawns, spawnPoint.step);
       Engine.map.addSpawnPoint(spawn);
     }
   });

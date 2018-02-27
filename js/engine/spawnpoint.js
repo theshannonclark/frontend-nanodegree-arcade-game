@@ -1,7 +1,8 @@
 
-let SpawnPoint = function(x, y, toSpawn, timeBetweenSpawns, step) {
+let SpawnPoint = function(x, y, entitySprite, toSpawn, timeBetweenSpawns, step) {
   Entity.call(this, null, x, y, 0, 0);
 
+  this.entitySprite = entitySprite;
   this.toSpawn = toSpawn;
   this.timeBetweenSpawns = timeBetweenSpawns;
   this.step = step
@@ -27,7 +28,7 @@ SpawnPoint.prototype.updateThis = function(dt) {
     let height = this.toSpawn.height;
     let width = this.toSpawn.width;
 
-    let entity = new this.toSpawn.Constructor(this.toSpawn.sprite, x, y, height, width, this.step);
+    let entity = new this.toSpawn.Constructor(this.entitySprite, x, y, height, width, this.step);
     entity.setBounds(new Rect(this.position.x, this.position.y - 74, height - 10, width));
     Engine.addEntity(entity, this);
 

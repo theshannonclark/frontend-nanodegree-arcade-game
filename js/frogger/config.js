@@ -2,12 +2,12 @@
 const config = {
   resources: [
     'stone-block.png', 'water-block.png', 'grass-block.png',
-    'enemy-bug.png', 'char-boy.png', 'Selector.png'
+    'enemy-bug.png', 'enemy-bug-reverse.png', 'char-boy.png',
+    'Selector.png'
   ],
 
   enemies: {
     bug: {
-      sprite: 'enemy-bug.png',
       Constructor: Enemy,
       height: 80,
       width: 100,
@@ -57,6 +57,7 @@ const config = {
         spawnPoints: [
           {
             type: 'bug',
+            sprite: 'enemy-bug.png',
             x: 0,
             y: 291,
             timeBetweenSpawns: 4500,
@@ -67,6 +68,7 @@ const config = {
           },
           {
             type: 'bug',
+            sprite: 'enemy-bug-reverse.png',
             x: 400,
             y: 540,
             timeBetweenSpawns: 4000,
@@ -77,6 +79,7 @@ const config = {
           },
           {
             type: 'bug',
+            sprite: 'enemy-bug.png',
             x: 0,
             y: 623,
             timeBetweenSpawns: 3000,
@@ -87,6 +90,7 @@ const config = {
           },
           {
             type: 'bug',
+            sprite: 'enemy-bug-reverse.png',
             x: 400,
             y: 706,
             timeBetweenSpawns: 4000,
@@ -97,6 +101,7 @@ const config = {
           },
           {
             type: 'bug',
+            sprite: 'enemy-bug.png',
             x: 0,
             y: 872,
             timeBetweenSpawns: 2000,
@@ -107,6 +112,7 @@ const config = {
           },
           {
             type: 'bug',
+            sprite: 'enemy-bug.png',
             x: 0,
             y: 1204,
             timeBetweenSpawns: 5000,
@@ -117,6 +123,7 @@ const config = {
           },
           {
             type: 'bug',
+            sprite: 'enemy-bug-reverse.png',
             x: 400,
             y: 1287,
             timeBetweenSpawns: 5000,
