@@ -7,18 +7,12 @@ let TiledMap = function(mapDimensions) {
   this.tileWidth = mapDimensions.tileWidth;
 
   this.offset = mapDimensions.offset;
-
-  this.world = {
-    rows: 0,
-    columns: this.columns
-  };
 };
 
 TiledMap.prototype.loadMap = function(levelData) {
   if (typeof this._map !== 'undefined') {
     this._map.delete();
     this._map = this._mapRows = this._spawnPoints = this._triggers = undefined;
-    this.world.rows = 0;
   }
 
   this._map = new NullEntity();
@@ -36,8 +30,6 @@ TiledMap.prototype._parseMap = function(map) {
     let rowParent = new NullEntity(null, 0, rowY);
 
     rows.push(rowParent);
-
-    this.world.rows++;
 
     let pointer = rowParent;
     for (let j = 0; j < this.columns; j++) {
@@ -84,8 +76,8 @@ TiledMap.prototype.addTrigger = function(trigger) {
 
 TiledMap.prototype.getWorldDimensions = function() {
   return {
-    height: (this.world.rows * this.tileHeight) + this.offset.bottom,
-    width:  (this.world.columns * this.tileWidth) + this.offset.left
+    height: (this._mapRows._children.length * this.tileHeight) + this.offset.bottom,
+    width:  (this.columns * this.tileWidth) + this.offset.left
   };
 };
 
