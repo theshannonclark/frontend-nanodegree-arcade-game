@@ -52,7 +52,7 @@ Entity.prototype.find = function(callback) {
 
 Entity.prototype.getScreenCoords = function() {
   let absoluteCoords = this.getAbsoluteCoords();
-  return Engine.map.worldCoordsToScreenCoords(absoluteCoords.x, absoluteCoords.y);
+  return Engine.camera.worldCoordsToScreenCoords(absoluteCoords.x, absoluteCoords.y);
 };
 
 Entity.prototype.getAbsoluteCoords = function() {

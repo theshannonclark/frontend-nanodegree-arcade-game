@@ -30,6 +30,19 @@ Camera.prototype._scroll = function(x, y) {
          (this.position.y !== initY);
 };
 
+/*  If things are positioned relative to the canvas, then their
+ *  positions need to be updated when the screen "scrolls". Using
+ *  a separate virtual coordinate system, and converting to "screen
+ *  coordinates" when rendering solved this problem. Screen coordinates
+ *  change, but world coordinates stay the same.
+ */
+Camera.prototype.worldCoordsToScreenCoords = function(x, y) {
+  return {
+    x: this.position.x + x,
+    y: this.position.y - y
+  };
+};
+
 // Assuming x and y are in screen coordinates
 Camera.prototype.onScreen = function(x, y, height, width) {
   return this.pointOnScreen(x, y) ||                   // top-left corner

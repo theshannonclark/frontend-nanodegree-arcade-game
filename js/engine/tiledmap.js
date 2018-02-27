@@ -82,20 +82,6 @@ TiledMap.prototype.addTrigger = function(trigger) {
   }
 };
 
-/*  If things are positioned relative to the canvas, then their
- *  positions need to be updated when the screen "scrolls". Using
- *  a separate virtual coordinate system, and converting to "screen
- *  coordinates" when rendering solved this problem. Screen coordinates
- *  update, but world coordinates stay the same.
- */
-TiledMap.prototype.worldCoordsToScreenCoords = function(x, y) {
-  let screenOrigin = { x: Engine.camera.position.x, y: Engine.camera.position.y };
-  return {
-    x: screenOrigin.x + x,
-    y: screenOrigin.y - y
-  };
-};
-
 TiledMap.prototype.getWorldDimensions = function() {
   return {
     height: (this.world.rows * this.tileHeight) + this.offset.bottom,
