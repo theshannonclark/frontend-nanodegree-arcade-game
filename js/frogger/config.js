@@ -12,10 +12,10 @@ const config = {
       height: 80,
       width: 100,
       bounds: {
-        x: 0,
+        x: 20,
         y: -74,
         height: 70,
-        width: 100,
+        width: 60,
       },
     },
   },
