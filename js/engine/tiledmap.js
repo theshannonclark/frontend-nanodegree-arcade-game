@@ -1,4 +1,22 @@
+/*
+ * Map tiles, spawn points, and triggers are stored in the scene graph.
+ *
+ * This needs to happen before adding anything else to the scene graph, because a
+ * depth-first search is used for rendering and updating.
+ *
+ * Each row is a chain of tiles, and each tile is positioned relative to its parent tile.
+ */
 
+/**
+ * Represents a tile map.
+ * @constructor
+ * @param {object} mapDimensions - Size data for the map.
+ * @param {number} mapDimensions.rows
+ * @param {number} mapDimensions.columns
+ * @param {number} mapDimensions.tileHeight
+ * @param {number} mapDimensions.tileWidth
+ * @param {object} mapDimensions.offset - Number of pixels at the top, left, bottom, and right outside to be ignored.
+ */
 let TiledMap = function(mapDimensions) {
   this.rows = mapDimensions.rows;
   this.columns = mapDimensions.columns;
@@ -9,6 +27,10 @@ let TiledMap = function(mapDimensions) {
   this.offset = mapDimensions.offset;
 };
 
+/**
+ * Loads a map.
+ * @param {object} levelData - Map data and spawn points for the current level.
+ */
 TiledMap.prototype.loadMap = function(levelData) {
   if (typeof this._map !== 'undefined') {
     this._map.delete();
@@ -21,6 +43,11 @@ TiledMap.prototype.loadMap = function(levelData) {
   this._parseMap(levelData.background);
 };
 
+/**
+ * Parses the map and store created tiles.
+ * @private
+ * @param {object} map
+ */
 TiledMap.prototype._parseMap = function(map) {
   let rows = [];
   for (let i = 0; i < map.length; i++) {
@@ -44,6 +71,11 @@ TiledMap.prototype._parseMap = function(map) {
   this._addRows(rows);
 };
 
+/**
+ * Adds rows of tiles to the scene graph.
+ * @private
+ * @param {object} rows
+ */
 TiledMap.prototype._addRows = function(rows) {
   if (typeof this._mapRows === 'undefined') {
     this._mapRows = new NullEntity();
@@ -89,19 +121,4 @@ TiledMap.prototype.pointInBounds = function(x, y, includeOffset = true) {
 
   return (x >= offsetLeft && x <= worldSize.width) &&
          (y >= offsetBottom && y <= worldSize.height);
-};
-
-
-
-// TODO:
-
-TiledMap.prototype.canStand = function(x, y) {};
-
-TiledMap.prototype.tileIndicesToCoords = function(i, j) {};
-
-TiledMap.prototype.coordsToTileIndices = function(x, y) {};
-
-TiledMap.prototype.nFromTheEnd = function(n) {
-  let index = (this._map.length - 1) - (n - 1);
-  return (index < 0) ? 0 : index;
 };

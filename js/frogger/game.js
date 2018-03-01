@@ -1,4 +1,8 @@
 
+/**
+ * Loads the game's configuration, and initializes the game's state.
+ * @constructor
+ */
 let Game = function() {
   this.level = 0;
 
@@ -11,11 +15,17 @@ let Game = function() {
   this.triggers = config.triggers;
 };
 
+/**
+ * Initializes the game engine.
+ */
 Game.prototype.init = function() {
   Engine.init(this.resources, this.mapDimensions);
   this.initLevel();
 };
 
+/**
+ * Initializes the level.
+ */
 Game.prototype.initLevel = function() {
   Engine.map.loadMap(this.levelData);
   this.initSpawnPoints();
@@ -23,6 +33,9 @@ Game.prototype.initLevel = function() {
   this.initPlayer();
 };
 
+/**
+ * Initializes enemy spawn points.
+ */
 Game.prototype.initSpawnPoints = function() {
   this.levelData.spawnPoints.forEach((spawnPoint) => {
     let enemy = this.enemies[spawnPoint.type];
@@ -35,6 +48,9 @@ Game.prototype.initSpawnPoints = function() {
   });
 };
 
+/**
+ * Initializes triggers, which are invisible entities that do something on collision with the player, like end the level.
+ */
 Game.prototype.initTriggers = function() {
   this.levelData.triggers.forEach((trigger) => {
     let conf = this.triggers[trigger.type];
@@ -51,6 +67,9 @@ Game.prototype.initTriggers = function() {
   });
 };
 
+/**
+ * Initializes the player at the specified spawn point.
+ */
 Game.prototype.initPlayer = function() {
   let spawnX = this.levelData.playerSpawn.x; 
   let spawnY = this.levelData.playerSpawn.y;
@@ -62,6 +81,9 @@ Game.prototype.initPlayer = function() {
   App.game.player = player;
 };
 
+/**
+ * Restarts the current level.
+ */
 Game.prototype.restartLevel = function() {
   if (typeof App.game.player !== 'undefined') {
     App.game.player.delete();

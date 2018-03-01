@@ -1,4 +1,16 @@
 
+/**
+ * Spawns the given entity at the specified rate.
+ * @constructor
+ * @extends Entity
+ * @param {number} x
+ * @param {number} y
+ * @param {string} entitySprite - Sprite of entity to spawn.
+ * @param {number} height
+ * @param {number} width
+ * @param {number} timeBetweenSpawns - Milliseconds between spawns.
+ * @param {object} step - The distance to move on each update.
+ */
 let SpawnPoint = function(x, y, entitySprite, toSpawn, timeBetweenSpawns, step) {
   Entity.call(this, null, x, y, 0, 0);
 
@@ -13,6 +25,11 @@ let SpawnPoint = function(x, y, entitySprite, toSpawn, timeBetweenSpawns, step) 
 SpawnPoint.prototype = Object.create(Entity.prototype);
 SpawnPoint.prototype.constructor = SpawnPoint;
 
+/**
+ * Called on each iteration of the game loop from {@link Entity#update}.
+ * @override
+ * @param {number} dt - Number of seconds that have passed since this was last called.
+ */
 SpawnPoint.prototype.updateThis = function(dt) {
   if (this._parent === null) {
     return;
