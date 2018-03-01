@@ -11,6 +11,12 @@ const config = {
       Constructor: Enemy,
       height: 80,
       width: 100,
+      bounds: {
+        x: 0,
+        y: -74,
+        height: 70,
+        width: 100,
+      },
     },
   },
 

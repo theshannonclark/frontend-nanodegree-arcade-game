@@ -22,14 +22,16 @@ SpawnPoint.prototype.updateThis = function(dt) {
   this.lastSpawnTime = (this.lastSpawnTime === null) ? time : this.lastSpawnTime;
 
   if ((time === this.lastSpawnTime) || (time - this.lastSpawnTime >= this.timeBetweenSpawns)) {
-    let x = this.position.x;
-    let y = this.position.y;
+    let coords = { x: this.position.x, y: this.position.y };
+    let size = { height: this.toSpawn.height, width: this.toSpawn.width};
 
-    let height = this.toSpawn.height;
-    let width = this.toSpawn.width;
-
-    let entity = new this.toSpawn.Constructor(this.entitySprite, x, y, height, width, this.step);
-    entity.setBounds(new Rect(this.position.x, this.position.y - 74, height - 10, width));
+    let entity = new this.toSpawn.Constructor(this.entitySprite, coords.x, coords.y, size.height, size.width, this.step);
+    entity.setBounds(new Rect(
+      coords.x + this.toSpawn.bounds.x,
+      coords.y + this.toSpawn.bounds.y,
+      this.toSpawn.bounds.height,
+      this.toSpawn.bounds.width
+    ));
     Engine.addEntity(entity, this);
 
     this.lastSpawnTime = time;
