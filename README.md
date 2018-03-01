@@ -1,6 +1,18 @@
-frontend-nanodegree-arcade-game
-===============================
+# Project: Arcade Game Clone - Shannon Clark
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+This is a project developed as part of Udacity's [Front-end developer Nanodegree](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001). The aim of this project is to create a clone of the classic arcade game Frogger using the HTML5 canvas API and object-oriented javascript code.
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+## Getting Started
+First you'll need to download the project by cloning the git repository:
+
+```
+git clone https://github.com/theshannonclark/frontend-nanodegree-arcade-game.git game
+```
+
+Then change into the project directory with `cd game`.
+
+Finally open `index.html` in your web browser.
+
+## How to Play the Game
+
+You can move the character around using the arrow keys. Move up while avoiding enemies until you reach a tile with a star icon. Step on that tile to complete the level.
