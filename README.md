@@ -2,6 +2,8 @@
 
 This is a project developed as part of Udacity's [Front-end developer Nanodegree](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001). The aim of this project is to create a clone of the classic arcade game Frogger using the HTML5 canvas API and object-oriented javascript code.
 
+The project is hosted [here](http://shannonclark.me/frontend-nanodegree-arcade-game/).
+
 ## Getting Started
 First you'll need to download the project by cloning the git repository:
 
